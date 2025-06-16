@@ -1,0 +1,14 @@
+mqtt:
+  broker: sample
+  port: 8883
+  username: sample
+  password: PASSWORD
+  topics:
+    - aircon/control
+
+devices:
+  aircon:
+    handler: AirconHandler
+    api_url: API_URL
+    topics:
+      - aircon/control 
