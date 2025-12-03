@@ -84,6 +84,37 @@ iot-bridge/
 - `iot-bridge/devices/#` - デバイスイベント
 - `iot-bridge/control/#` - デバイス制御
 
+## 予約・スケジューラ機能
+
+`config.yaml`の`scheduler`セクションを有効化すると、MQTT経由でエアコンの予約を管理できます。
+
+### 設定例
+
+```yaml
+scheduler:
+  enabled: true
+  timezone_offset_minutes: 540   # JST
+  storage_path: schedules.json
+  ntp_server: ntp.nict.jp
+  response_topic: aircon/schedule/response
+  topics:
+    create: aircon/schedule/create
+    update: aircon/schedule/update
+    delete: aircon/schedule/delete
+    list: aircon/schedule/list
+```
+
+### MQTT コマンド
+
+| トピック | 用途 | メッセージ例 |
+|---------|------|--------------|
+| `aircon/schedule/create` | 新規作成 | `{"schedule":{"time":"07:30","power_on":true,"mode":"cool","temperature":25,"repeat":{"type":"weekdays"}}}` |
+| `aircon/schedule/update` | 更新 | `{"schedule":{"id":"schedule_ab12cd","time":"22:00","enabled":false}}` |
+| `aircon/schedule/delete` | 削除 | `{"id":"schedule_ab12cd"}` |
+| `aircon/schedule/list` | 一覧取得 | `{}` |
+
+各リクエストには`request_id`を付与でき、レスポンスは `aircon/schedule/response` に返されます。
+
 
 ## お問い合わせ
 - バグ報告やご要望: [GitHub Issues](https://github.com/fujiwaradaikidesu/iot-bridge/issues)

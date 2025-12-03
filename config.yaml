@@ -12,3 +12,17 @@ devices:
     api_url: API_URL
     topics:
       - aircon/control 
+
+scheduler:
+  enabled: true
+  timezone_offset_minutes: 540  # JST
+  storage_path: schedules.json
+  ntp_server: ntp.nict.jp
+  sync_interval_seconds: 3600
+  tick_interval_seconds: 30
+  response_topic: aircon/schedule/response
+  topics:
+    create: aircon/schedule/create
+    update: aircon/schedule/update
+    delete: aircon/schedule/delete
+    list: aircon/schedule/list
