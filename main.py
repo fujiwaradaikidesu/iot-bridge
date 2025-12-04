@@ -30,7 +30,10 @@ class MQTTBridge:
     def __init__(self, config: Dict[str, Any]):
         self.config = config
         self.handlers: Dict[str, Any] = {}
-        self.client = mqtt.Client(callback_api_version=mqtt.CallbackAPIVersion.VERSION2)
+        client_kwargs = {}
+        if hasattr(mqtt, "CallbackAPIVersion"):
+            client_kwargs["callback_api_version"] = mqtt.CallbackAPIVersion.VERSION2
+        self.client = mqtt.Client(**client_kwargs)
         self.message_queue = queue.Queue()
 
         self.schedule_manager: Optional[ScheduleManager] = None
